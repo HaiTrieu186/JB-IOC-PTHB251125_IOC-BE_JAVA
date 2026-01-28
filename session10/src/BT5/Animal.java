@@ -1,0 +1,47 @@
+package BT5;
+
+public class Animal {
+    private String name;
+    private int age;
+
+    public Animal() {
+    }
+
+    public Animal(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public void showInfo(){
+        System.out.printf("Name: %s, Age: %d\n", this.name, this.age);
+    }
+
+    public void makeSound(){
+
+    }
+
+    public void eat(){
+        System.out.printf("%s is eating.\n", this.name);
+    }
+    public void eat(String food){
+        System.out.printf("%s is eating %s.\n", this.name, food);
+    }
+
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
