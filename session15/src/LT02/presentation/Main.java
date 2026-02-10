@@ -1,15 +1,15 @@
-package LT01.presentation;
+package LT02.presentation;
 
-import LT01.Exception.EmptyInputException;
-import LT01.business.impl.MovieManager;
-import LT01.model.Movie;
+import LT02.Exception.EmptyInputException;
+import LT02.business.impl.SubjectManager;
+import LT02.model.Subject;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    private static MovieManager movieManager = new MovieManager();
+    private static SubjectManager subjectManager = new SubjectManager();
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -19,15 +19,15 @@ public class Main {
             choice = showMenu(sc);
             switch (choice) {
                 case 1: {
-                    handleAddMovie(sc);
+                    handleAddSubject(sc);
                     break;
                 }
                 case 2: {
-                    handleDeleteMovie(sc);
+                    handleDeleteSubject(sc);
                     break;
                 }
                 case 3: {
-                    handleUpdateMovie(sc);
+                    handleUpdateSubject(sc);
                     break;
                 }
                 case 4: {
@@ -35,11 +35,11 @@ public class Main {
                     break;
                 }
                 case 5: {
-                    handleFindByTitle(sc);
+                    handleFindByName(sc);
                     break;
                 }
                 case 6: {
-                    handleFindByRating(sc);
+                    handleFindByCredits(sc);
                     break;
                 }
                 case 7: {
@@ -54,42 +54,39 @@ public class Main {
         }
     }
 
-    private static void handleFindByTitle(Scanner sc) {
-        String title;
+    private static void handleFindByName(Scanner sc) {
+        String name;
 
-        System.out.println("\n--- TÌM PHIM THEO TIÊU ĐỀ ---");
+        System.out.println("\n--- TÌM MÔN HỌC THEO TÊN ---");
         while (true) {
             try {
-                title = Movie.inputTitle(sc);
+                name = Subject.inputName(sc);
                 break;
             } catch (EmptyInputException e) {
                 System.out.println(e.getMessage());
             }
         }
 
-        List<Movie> matches = movieManager.findAllByTitle(title);
+        List<Subject> matches = subjectManager.findSubjectsByName(name);
 
         if (matches.isEmpty()) {
-            System.out.println("Không tìm thấy phim nào trùng khớp !");
+            System.out.println("Không tìm thấy môn học nào trùng khớp !");
             return;
         }
 
         System.out.println("-- KẾT QUẢ TÌM KIẾM --");
         int i = 1;
-        for (Movie m : matches) {
-            System.out.print(i++ + ". ");
-            m.display();
-        }
+        SubjectManager.displayList(matches);
 
     }
 
-    private static void handleFindByRating(Scanner sc) {
-        double rating;
+    private static void handleFindByCredits(Scanner sc) {
+        int credits;
 
-        System.out.println("\n--- TÌM PHIM THEO RATING ---");
+        System.out.println("\n--- TÌM MÔN HỌC THEO TÍN CHỈ ---");
         while (true) {
             try {
-                rating = Movie.inputRating(sc);
+                credits = Subject.inputCredits(sc);
                 break;
             } catch (NumberFormatException e) {
                 System.out.println(e.getMessage());
@@ -98,64 +95,60 @@ public class Main {
             }
         }
 
-        List<Movie> matches = movieManager.findAllByRating(rating);
+        List<Subject> matches = subjectManager.findSubjectsByCredit(credits);
 
         if (matches.isEmpty()) {
-            System.out.println("Không tìm thấy phim nào trùng khớp !");
+            System.out.println("Không tìm thấy môn học nào trùng khớp !");
             return;
         }
 
         System.out.println("-- KẾT QUẢ TÌM KIẾM --");
-        int i = 1;
-        for (Movie m : matches) {
-            System.out.print(i++ + ". ");
-            m.display();
-        }
+        SubjectManager.displayList(matches);
     }
 
-    private static void handleDeleteMovie(Scanner sc) {
-        String idDelete;
-        System.out.println("\n--- XÓA PHIM ---");
+    private static void handleDeleteSubject(Scanner sc) {
+        String codeDelete;
+        System.out.println("\n--- XÓA MÔN HỌC---");
         while (true) {
             try {
-                idDelete = Movie.inputID(sc);
+                codeDelete = Subject.inputCode(sc);
                 break;
             } catch (EmptyInputException e) {
                 System.out.println(e.getMessage());
             }
         }
 
-        if (!movieManager.isExistById(idDelete)) {
-            System.out.println("Bộ phim với ID [" + idDelete + "] không tồn tại !");
+        if (!subjectManager.isExistByCode(codeDelete)) {
+            System.out.println("Môn học với ID [" + codeDelete + "] không tồn tại !");
             return;
         }
 
-        movieManager.delete(idDelete);
-        System.out.println("Bộ phim với ID [" + idDelete + "] đã được xóa thành công !");
+        subjectManager.delete(codeDelete);
+        System.out.println("Môn học với ID [" + codeDelete + "] đã được xóa thành công !");
 
     }
 
-    private static void handleUpdateMovie(Scanner sc) {
-        String idUpdate;
-        System.out.println("\n--- SỬA PHIM ---");
+    private static void handleUpdateSubject(Scanner sc) {
+        String codeUpdate;
+        System.out.println("\n--- SỬA MÔN HỌC ---");
         while (true) {
             try {
-                idUpdate = Movie.inputID(sc);
+                codeUpdate = Subject.inputCode(sc);
                 break;
             } catch (EmptyInputException e) {
                 System.out.println(e.getMessage());
             }
         }
 
-        Movie updateMovie = movieManager.findById(idUpdate);
+        Subject updateSubject = subjectManager.findByCode(codeUpdate);
 
-        if (updateMovie == null) {
-            System.out.println("Bộ phim với ID [" + idUpdate + "] không tồn tại !");
+        if (updateSubject == null) {
+            System.out.println("Môn học với ID [" + codeUpdate + "] không tồn tại !");
             return;
         }
 
-        System.out.println("-- THÔNG TIN PHIM HIỆN TẠI: --");
-        updateMovie.display();
+        System.out.println("-- THÔNG TIN MÔN HỌC HIỆN TẠI: --");
+        updateSubject.display();
 
         int choice;
         boolean exitFlag = false;
@@ -163,36 +156,38 @@ public class Main {
             choice = showMenuUpdate(sc);
             switch (choice) {
                 case 1: {
-                    String title;
+                    String name;
                     while (true) {
                         try {
-                            title = Movie.inputTitle(sc);
+                            name=Subject.inputName(sc);
                             break;
                         } catch (EmptyInputException e) {
                             System.out.println(e.getMessage());
                         }
                     }
-                    updateMovie.setTitle(title);
+                    updateSubject.setName(name);
                     break;
                 }
                 case 2: {
-                    String director;
+                    int credits ;
                     while (true) {
                         try {
-                            director = Movie.inputDirector(sc);
+                            credits= Subject.inputCredits(sc);
                             break;
-                        } catch (EmptyInputException e) {
+                        }catch (NumberFormatException e){
+                            System.out.println(e.getMessage());
+                        }catch (IllegalArgumentException e){
                             System.out.println(e.getMessage());
                         }
                     }
-                    updateMovie.setDirector(director);
+                    updateSubject.setCredits(credits);
                     break;
                 }
                 case 3: {
                     LocalDate date;
                     while (true) {
                         try {
-                            date = Movie.inputReleaseDate(sc);
+                            date = Subject.inputStartDate(sc);
                             break;
                         } catch (EmptyInputException e) {
                             System.out.println(e.getMessage());
@@ -200,22 +195,7 @@ public class Main {
                             System.out.println(e.getMessage());
                         }
                     }
-                    updateMovie.setReleaseDate(date);
-                    break;
-                }
-                case 4: {
-                    double rating;
-                    while (true) {
-                        try {
-                            rating = Movie.inputRating(sc);
-                            break;
-                        } catch (NumberFormatException e) {
-                            System.out.println(e.getMessage());
-                        } catch (IllegalArgumentException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
-                    updateMovie.setRating(rating);
+                    updateSubject.setStartDate(date);
                     break;
                 }
                 case 0: {
@@ -228,24 +208,24 @@ public class Main {
                 }
             }
         }
-        movieManager.update(updateMovie, idUpdate);
+        subjectManager.update(updateSubject, codeUpdate);
     }
 
     private static void handleDisplayList() {
-        System.out.println("\n--- DANH SÁCH PHIM ---");
-        movieManager.displayAllMovies();
+        System.out.println("\n--- DANH SÁCH MÔN HỌC ---");
+        SubjectManager.displayList(subjectManager.findAll());
     }
 
-    private static void handleAddMovie(Scanner sc) {
-        System.out.println("\n--- THÊM PHIM MỚI ---");
-        String id;
+    private static void handleAddSubject(Scanner sc) {
+        System.out.println("\n--- THÊM MÔN HỌC MỚI ---");
+        String code;
 
         while (true) {
             try {
-                id = Movie.inputID(sc);
+                code = Subject.inputCode(sc);
 
-                if (movieManager.isExistById(id)) {
-                    System.out.println("Lỗi: ID [" + id + "] đã tồn tại, vui lòng nhập ID khác!");
+                if (subjectManager.isExistByCode(code)) {
+                    System.out.println("Lỗi: Code [" + code + "] đã tồn tại, vui lòng nhập ID khác!");
                 } else {
                     break;
                 }
@@ -254,22 +234,21 @@ public class Main {
             }
         }
 
-        Movie movie = new Movie();
-        movie.setId(id);
-        movie.input(sc);
+        Subject subject=new Subject();
+        subject.setCode(code);
+        subject.input(sc);
 
-        movieManager.add(movie);
-        System.out.println("Phim đã được thêm thành công !");
+        subjectManager.add(subject);
+        System.out.println("Môn học đã được thêm thành công !");
     }
 
     private static int showMenuUpdate(Scanner sc) {
         int choice;
-        System.out.println("- MENU UPDATE PHIM -");
+        System.out.println("- MENU UPDATE MÔN HỌC -");
         System.out.println("""
-                1. Update: Tên phim
-                2. Update: Đạo diễn
-                3. Update: Ngày phát hành
-                4. Update: Rating
+                1. Update: Tên môn học
+                2. Update: Số tín chỉ
+                3. Update: Ngày bắt đầu
                 0. Thoát
                 """);
         while (true) {
@@ -278,7 +257,7 @@ public class Main {
                 choice = Integer.parseInt(sc.nextLine());
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Lỗi: Vui lòng chỉ nhập định dạng số hợp lệ (1-5)");
+                System.out.println("Lỗi: Vui lòng chỉ nhập định dạng số hợp lệ (0-3)");
             }
         }
         return choice;
@@ -287,13 +266,13 @@ public class Main {
     private static int showMenu(Scanner sc) {
         int choice;
         System.out.println("""
-                ------ QUẢN LÝ PHIM -------
-                1. Thêm phim
-                2. Xóa phim
-                3. Sửa phim
-                4. Hiển thị phim
-                5. Tìm kiếm phim theo tên
-                6. Lọc phim theo rating
+                ------ QUẢN LÝ MÔN HỌC -------
+                1. Thêm môn học
+                2. Xóa môn học
+                3. Sửa môn học
+                4. Hiển thị môn học
+                5. Tìm kiếm môn học theo tên
+                6. Lọc phim môn học số tín chỉ
                 7. Thoát
                 ---------------------------""");
 
