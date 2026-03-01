@@ -5,5 +5,6 @@
     <file url="file://$PROJECT_DIR$/src/BT1/business/MovieManager.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/BT2/BT2.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/src/BT3/BT3.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/BT4/BT4.sql" dialect="PostgreSQL" />
   </component>
 </project>
