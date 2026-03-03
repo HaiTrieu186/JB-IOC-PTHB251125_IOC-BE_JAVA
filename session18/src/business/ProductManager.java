@@ -16,7 +16,7 @@ public class ProductManager {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, name);
-            pstmt.setInt(2, excludeId); // Bỏ qua ID hiện tại khi đang ở chức năng Update
+            pstmt.setInt(2, excludeId);
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
@@ -108,7 +108,7 @@ public class ProductManager {
             cs.setString(1, p.getName());
             cs.setFloat(2, p.getPrice());
             cs.setString(3, p.getTitle());
-            cs.setDate(4, Date.valueOf(p.getCreated())); // Parse LocalDate to java.sql.Date
+            cs.setDate(4, Date.valueOf(p.getCreated()));
             cs.setString(5, p.getCatalog());
             cs.setInt(6, p.getStatus());
 

@@ -98,7 +98,6 @@ public class Main {
         System.out.println("\n--- CẬP NHẬT SẢN PHẨM ---");
         int id = InputUtil.inputInt(sc, "Nhập mã sản phẩm (ID) cần cập nhật: ");
 
-        // Kiểm tra xem ID có tồn tại không trước khi bắt người dùng nhập một đống thông tin
         if (productManager.getProductById(id) == null) {
             System.out.println("Lỗi: Không tìm thấy sản phẩm có ID = " + id);
             return;
@@ -155,7 +154,6 @@ public class Main {
 
     // 7. Thống kê theo danh mục
     private static void handleStatProduct() {
-        // Hàm statProductByCatalog đã tự in ra bảng thống kê trong Manager rồi
         productManager.statProductByCatalog();
     }
 
